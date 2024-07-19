@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-
 // Type definitions
 interface Participant {
   id: string;
@@ -21,7 +20,6 @@ interface Transaction {
   contributions: Record<string, string>;
   isSplitBill: boolean;
 }
-
 
 // Helper function to format IDR
 const formatIDR = (amount) => {
@@ -178,7 +176,7 @@ const App = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-6">Bill Splitter App</h1>
+      <h1 className="text-4xl font-bold mb-6">Themis: Bill Splitter App</h1>
       
       <Card className="mb-6">
         <CardHeader>
@@ -194,7 +192,7 @@ const App = () => {
               className="flex-grow"
             />
             <Button variant="default" onClick={addParticipant}>
-              <Plus className="mr-2 h-16 w-4 " /> Add
+              <Plus className="mr-2 h-4 w-4" /> Add
             </Button>
           </div>
           <ul className="space-y-2">
@@ -215,7 +213,7 @@ const App = () => {
           <CardTitle className="text-2xl">New Transaction</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -310,31 +308,29 @@ const App = () => {
             })}
           </ul>
           <h3 className="text-xl font-semibold mb-2">All Transactions</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <ul className="space-y-2">
-              {transactions.map(t => (
-                <li key={t.id} className="bg-gray-100 p-4 rounded">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">{t.title || 'Untitled'}</span>
-                    <span>{formatIDR(parseFloat(t.amount) || 0)}</span>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Payer: {participants.find(p => p.id === t.payer)?.name || 'Not specified'}
-                  </div>
-                  <div className="text-sm">
-                    {t.isSplitBill ? 'Split equally' : 'Custom split'}
-                  </div>
-                  <div className="mt-2 flex justify-end space-x-2">
-                    <Button size="sm" onClick={() => editTransaction(t.id)}>
-                      <Edit className="h-4 w-4 mr-1" /> Edit
-                    </Button>
-                    <Button size="sm" variant="destructive" onClick={() => deleteTransaction(t.id)}>
-                      <Trash2 className="h-4 w-4 mr-1" /> Delete
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {transactions.map(t => (
+              <div key={t.id} className="bg-gray-100 p-4 rounded">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold">{t.title || 'Untitled'}</span>
+                  <span>{formatIDR(parseFloat(t.amount) || 0)}</span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  Payer: {participants.find(p => p.id === t.payer)?.name || 'Not specified'}
+                </div>
+                <div className="text-sm">
+                  {t.isSplitBill ? 'Split equally' : 'Custom split'}
+                </div>
+                <div className="mt-2 flex justify-end space-x-2">
+                  <Button size="sm" onClick={() => editTransaction(t.id)}>
+                    <Edit className="h-4 w-4 mr-1" /> Edit
+                  </Button>
+                  <Button size="sm" variant="destructive" onClick={() => deleteTransaction(t.id)}>
+                    <Trash2 className="h-4 w-4 mr-1" /> Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
